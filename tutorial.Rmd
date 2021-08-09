@@ -13,7 +13,8 @@ Collaboration
 
 Requirements before meeting:
 Have git installed (link)
-Have usethis R package installed install.packages(“usethis”)
+Have usethis and gitcreds R package installed install.packages(c(“usethis”,"gitcreds"))
+
 
 First step: having git installed on your computer
 Need to have git installed on computer first
@@ -23,13 +24,22 @@ http://git-scm.com/downloads
 
 Mac/linux: already installed (means nectar too)
 
-$ which git
+```{bash}
+which git
+```
+
+
 Gives the path to git
 
 On windows might need to give the path in global options
 
 Edit git info using R (and usethis package)
-edit_git_config()
+
+```{r}
+usethis::edit_git_config()
+```
+
+
 
 ### Initialize a git repo
 
@@ -38,6 +48,79 @@ no git panel for now
 
 can initialise with git during creation of new project
 this command does it to
+
+```{r}
+usethis::use_git()
+```
+
+Now we have a git tab
+
+Clock button is the history of the project (all the commits done)
+
+## Commiting things
+
+Creating new file
+```{r}
+file.edit("test.R")
+```
+
+Yellow symbols means git is waiting for you to commit or not. Click on it and it becomes green, to add the file for the first time to git. Write commit message and commit.
+
+
+Now add something in test.R and save. The script is in the git tab in blue, meaning there are differences between git and your local save.
+Commit the changes and check the history
+
+Rstudio has a build in tool to show you the changes between each commit.
+
+That's the track change function of Git
+
+## Connecting GitHub and goind online
+
+Create a github account
+
+Now, github uses personal access tokens (PAT) instead of passwords. Once can also use SSH to connect with GitHub but if you know what SSH is, you also know how to set it up yourself probably.
+
+```{r}
+usethis::create_github_token()
+```
+
+This sends you in your git hub account where you can create a PAT that will allow you to send your local code in your repositories in GitHub. Think of the PAT as a strong password with editable privileges.
+
+Once you create your PAT store it somewhere as you are never going to see it again on GitHub
+
+
+Now to connect to github the easiest is to store your credentials with Rstudio
+
+```{r}
+gitcreds::gitcreds_set()
+```
+
+You need to enter your PAT in the password slot. The passworkd you use to connect to your github account won't work.
+
+Now you will be able to host your R projects into GitHub repositories
+
+
+Different cases
+
+Rstudio first
+
+For when you already have a project that you want to put on GitHub
+
+You need to have git set up in your project with `use_git()` first, then use
+
+```{r}
+usethis::use_github()
+
+```
+
+Easy done
+
+
+GitHub first
+
+When you create a new project in Rstudio, you can select the version control option and you need to enter the GitHUb url to link (green code button) it to your project
+
+
 
 
 Removing the last commit
