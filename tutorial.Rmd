@@ -1,0 +1,77 @@
+---
+title: GitHub 101
+author: "Romain Forestier"
+---
+
+
+
+Why using github?
+Back up
+Track changes
+Collaboration
+
+
+Requirements before meeting:
+Have git installed (link)
+Have usethis R package installed install.packages(“usethis”)
+
+First step: having git installed on your computer
+Need to have git installed on computer first
+
+Install on windows
+http://git-scm.com/downloads
+
+Mac/linux: already installed (means nectar too)
+
+$ which git
+Gives the path to git
+
+On windows might need to give the path in global options
+
+Edit git info using R (and usethis package)
+edit_git_config()
+
+### Initialize a git repo
+
+build a new simple project
+no git panel for now
+
+can initialise with git during creation of new project
+this command does it to
+
+
+Removing the last commit
+
+To remove the last commit from git, you can simply run git reset --hard HEAD^ If you are removing multiple commits from the top, you can run git reset --hard HEAD~2 to remove the last two commits. You can increase the number to remove even more commits.
+
+If you want to "uncommit" the commits, but keep the changes around for reworking, remove the "--hard": git reset HEAD^ which will evict the commits from the branch and from the index, but leave the working tree around.
+
+If you want to save the commits on a new branch name, then run git branch newbranchname before doing the git reset.
+
+
+Change Git Remote URL
+In order to change the URL of a Git remote, you have to use the “git remote set-url” command and specify the name of the remote as well as the new remote URL to be changed.
+$ git remote set-url <remote_name> <remote_url>
+For example, let’s say that you want to change the URL of your Git origin remote.
+In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
+$ git remote set-url origin https://git-repo/new-repository.git
+git remote set-url origin https://baldrech:PAT@github.com/jporobicg/ECOSUM
+
+
+IF no upstream is selected for your local branch
+git push --set-upstream origin branch_name
+
+Check branch status
+
+git branch -v
+
+Check link between origin and local
+git remote show origin
+
+
+
+
+
+
+Useful link: http://r-bio.github.io/git-installation/
+https://docs.github.com/en/get-started/quickstart/set-up-git
