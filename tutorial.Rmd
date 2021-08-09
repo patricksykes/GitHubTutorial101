@@ -12,17 +12,10 @@ Collaboration
 
 
 Requirements before meeting:
-Have git installed (link)
+Have git installed (http://git-scm.com/downloads)
 Have usethis and gitcreds R package installed install.packages(c(“usethis”,"gitcreds"))
 
 
-First step: having git installed on your computer
-Need to have git installed on computer first
-
-Install on windows
-http://git-scm.com/downloads
-
-Mac/linux: already installed (means nectar too)
 
 ```{bash}
 which git
@@ -121,9 +114,123 @@ GitHub first
 When you create a new project in Rstudio, you can select the version control option and you need to enter the GitHUb url to link (green code button) it to your project
 
 
+Now that everything is connected we can start collaborating! 
+
+Git has it own language full of strange terms and we are going to unveil them now
+
+First thing to know, even if you do not wish to collaborate, you will still have to use Git to talk between your local project and the one on GitHub so this applies to you too!
+
+## Push
+
+It means you send (push) your changes towards something else. The basic case is that you have changed some stuff locally and you push it online in your own repo.
+You need to commit your changes first. Files that you never commited to git can stay as they are.
 
 
-Removing the last commit
+## Pull
+
+It means that you grab some code to put it where you initiate the pull. In our case we are getting the code from GitHub into our local Rstudio. You cannot push towards a repo if you have not pulled any changes with your code first.
+
+
+And that's it, the basics of Git and GitHub.
+In the following section we are going to see more advanced stuff usually coming from collaborating with other people
+
+
+Git is best used with the console so we are going to use mainly the console from now on
+
+## Branch and why do it?
+
+When you initialise a git repo, one branch called "master" is created. If you clone your repo onli with github, the online branch is also going to be called "master". That's the default. 
+
+For example your code works perfectly but you want to add/try something new. One way could be to stay on the same branch and keep commiting. If nothing works you can restore a previous stage of your code but then you will lose all your recent work. A new branch is going to be a bifurcation in your code which allows you to work in parallel with different version of your code. You can create a "dev" branch, try some stuff until it works, and when you are happy about the changes you can merge your "dev" branch into "master" to get only one master branch with all your changes.
+
+You can also have different projects using the same base code (a model for example) and have different branchs depending on how you are using the code. One branch can be a model with an additional component such as pressure/depth/temperature, or even 3 branches, one for each component.
+
+
+View all the branchs in the repo
+
+```{bash}
+
+git branch
+
+```
+
+Create a new branch. When creating a new branch, you are creating a copy of the branch you are on.
+
+
+```{bash}
+git branch dev
+
+```
+
+But we are still working on the "master" branch at the moment, let's move to the new branch
+
+```{bash}
+
+git checkout dev
+
+```
+
+console says: "switch to branch 'dev'
+
+
+I don't like this branch anymore. Need to leave the branch first
+
+```{bash}
+
+git checkout master
+git branch -d dev
+
+```
+
+
+Exercise: edit something in a new branch then come back to master -> the changes are not there!
+Note: Rstudio buttons have a hard time following what we are doing, it is better to use the console anyway
+
+short cut 
+
+```{bash}
+git checkout -b test
+```
+
+
+Now to merge our changes
+To do so, we need to be in the branch receiving the changes. Git works like this, it is the same when collaborating. We never push changes towards someone, instead we ask them to pull our changes into their repository
+
+```{bash}
+
+git merge test
+
+```
+
+Console shows what are the difference between the 2 branches
+
+We are done with the test branch now
+
+
+Check branch status
+
+shows the branch and their Upstream
+```{bash}
+git branch -vv
+```
+
+
+
+
+
+## manipulating commits
+
+
+Check the status of your changes
+
+```{bash}
+git status
+
+```
+
+
+
+Removing the last commit (https://gist.github.com/CrookedNumber/8964442)
 
 To remove the last commit from git, you can simply run git reset --hard HEAD^ If you are removing multiple commits from the top, you can run git reset --hard HEAD~2 to remove the last two commits. You can increase the number to remove even more commits.
 
@@ -131,6 +238,24 @@ If you want to "uncommit" the commits, but keep the changes around for reworking
 
 If you want to save the commits on a new branch name, then run git branch newbranchname before doing the git reset.
 
+
+restoring commits: http://gitready.com/advanced/2009/01/17/restoring-lost-commits.html
+
+## aliases
+
+change origin / upstream
+
+shows remote and local branches with tracking info.
+
+```{bash}
+git remote show origin
+```
+
+If no upstream is selected for your local branch
+
+```{bash}
+git push --set-upstream origin branch_name
+```
 
 Change Git Remote URL
 In order to change the URL of a Git remote, you have to use the “git remote set-url” command and specify the name of the remote as well as the new remote URL to be changed.
@@ -141,20 +266,23 @@ $ git remote set-url origin https://git-repo/new-repository.git
 git remote set-url origin https://baldrech:PAT@github.com/jporobicg/ECOSUM
 
 
-IF no upstream is selected for your local branch
-git push --set-upstream origin branch_name
+## Fork and why do it?
 
-Check branch status
+why
 
-git branch -v
+authority on branch
 
-Check link between origin and local
-git remote show origin
 
+## pull request? what is it?
 
 
 
 
+
+
+
+
+Stackoverflow is your friend
 
 Useful link: http://r-bio.github.io/git-installation/
 https://docs.github.com/en/get-started/quickstart/set-up-git
