@@ -1,247 +1,322 @@
 ---
-title: GitHub 101
+title: "What is Git? Please don't scare me, no more"
 author: "Romain Forestier"
 ---
 
+```{r setup,include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
 
+```
 
-Why using github?
-Back up
-Track changes
-Collaboration
+Requirements:
 
-
-Requirements before meeting:
 Have git installed (http://git-scm.com/downloads)
-Have usethis and gitcreds R package installed install.packages(c(“usethis”,"gitcreds"))
+
+Have usethis and gitcreds R package installed 
+
+```{r}
+install.packages(c("usethis","gitcreds"))
+```
+
+# Why using GitHub?
+
+- Git is a software that track changes in your files.
+
+- GitHub is the online version which allows you to share your files and collaborate with others. It can also be used as an online backup.
+
+In summary, GitHub allows you to track your progress wihtout losing previous versions of your work, independently of what machine you are working on.
+
+Git is used with shell commands, meaning that there is no graphical interface for the software. Rstudio implements some Git functions in its interface but only the simplest ones actually manage to keep up with what's happening with Git. Therefore this tutorial mainly uses the console and terminal to guide you through Git functions. No previous knowledge is necessary to follow the tutorial. If there is no "terminal" tab in your RStudio, you can open one with Tools>Terminal>New Terminal or Shift+Alt+R
 
 
+## Installing Git
 
-```{bash}
+Check if Git is installed on your machine and/or if Rstudio knows where Git is. (use the terminal)
+
+```{shell}
 which git
 ```
 
+On windows, one might needs to give the path of Git to Rstudio in Tools>Global Options>Git/SVN. Enter the path where Git is installed in the "Git executable" cell (usually C:/Program Files/Git/bin/git.exe).
 
-Gives the path to git
-
-On windows might need to give the path in global options
-
-Edit git info using R (and usethis package)
+Since Git allows for collaboration, one needs to setup an identifiant and email address first, so changes made to any file can be tracked to its human origin.
 
 ```{r}
 usethis::edit_git_config()
 ```
 
+Edit the opened script with your informations.
 
 
-### Initialize a git repo
+## Initialize your first Git repository
 
-build a new simple project
-no git panel for now
+In Rstudio, a Git repository is based on a R project. If you are not using R projects yet, time to get onto it!
 
-can initialise with git during creation of new project
-this command does it to
+Let's start by creating a new project using the "new directory>new project" option. There a cell asking you if you want to make it a Git repository. That's one way to do it, below is another way using the console that also allows converting an existing R project into a Git repository.
+
+In your new project, there are no Git tab next to the "environment" and "history" tab yet.
+
+Use the below command to initialise the Git repository
 
 ```{r}
 usethis::use_git()
 ```
 
-Now we have a git tab
+Now we have a Git tab! (might need to restart Rstudio)
 
-Clock button is the history of the project (all the commits done)
+On the Git tab, the "clock" button is the history of the project (all the commits done). For now there is just one, the initial commit.
 
-## Commiting things
+## Commiting your changes
 
-Creating new file
+Let's create new file
+
 ```{r}
 file.edit("test.R")
 ```
 
-Yellow symbols means git is waiting for you to commit or not. Click on it and it becomes green, to add the file for the first time to git. Write commit message and commit.
+Click on the "Commit" button in the Git tab. It opens a "Commit" window that shows you all the files that differ from the previous commit made on Git. Yellow symbols means that the files are not tracked and Git is waiting to know if they should be. Click on your recently created file and it becomes green. It means that Git is going to add the file for the first time to your tracked changes. Write a commit message and commit.
 
+Now add something in your new file and save it. Back in the "Commit" window, the script is in blue, meaning there are differences between the last commit saved by Git and your last save.
 
-Now add something in test.R and save. The script is in the git tab in blue, meaning there are differences between git and your local save.
-Commit the changes and check the history
+Commit the changes and check the history of your commits.
+That's the track change function of Git.
 
-Rstudio has a build in tool to show you the changes between each commit.
+## Connecting GitHub and going online
 
-That's the track change function of Git
+First step is to use your favorite browser to go to https://github.com/ and create a GitHub account.
 
-## Connecting GitHub and goind online
+The first thing to know about GitHub is that you are going to use your password only to connect to your account online, everything else, namely using Git functions is done using personal access tokens (PAT). One can also use SSH to connect with GitHub but if you know what SSH is, you also know how to set it up yourself (probably).
 
-Create a github account
-
-Now, github uses personal access tokens (PAT) instead of passwords. Once can also use SSH to connect with GitHub but if you know what SSH is, you also know how to set it up yourself probably.
+We are going to use R to create a PAT and link our local Git repository to GitHub.
 
 ```{r}
 usethis::create_github_token()
 ```
 
-This sends you in your git hub account where you can create a PAT that will allow you to send your local code in your repositories in GitHub. Think of the PAT as a strong password with editable privileges.
+This sends you in your GitHub account where you can create a PAT and define its function. Think of the PAT as a strong password with editable privileges.
+Once you create your PAT store it somewhere as you are never going to see it again on GitHub.
 
-Once you create your PAT store it somewhere as you are never going to see it again on GitHub
-
-
-Now to connect to github the easiest is to store your credentials with Rstudio
+Now to connect to GitHub, the easiest is to store your credentials with Rstudio.
 
 ```{r}
 gitcreds::gitcreds_set()
 ```
 
-You need to enter your PAT in the password slot. The passworkd you use to connect to your github account won't work.
+You need to enter your PAT in the password slot. The password used to connect to your GitHub account won't work.
 
-Now you will be able to host your R projects into GitHub repositories
+Now you will be able to host your R projects into GitHub repositories!
 
 
-Different cases
 
-Rstudio first
+### Connecting from Rstudio
 
-For when you already have a project that you want to put on GitHub
+For when you already have a project that you want to put on GitHub.
 
-You need to have git set up in your project with `use_git()` first, then use
+You need to have Git set up in your project with `use_git()`, then use
 
 ```{r}
 usethis::use_github()
-
 ```
 
-Easy done
+### Connecting from GitHub
+
+When you create a new project in Rstudio, you can select the version control option and enter the GitHub URL to link it to your project. The repository's URL is found on its main page by clicking on the green "Code" button.
 
 
-GitHub first
+# What now?
 
-When you create a new project in Rstudio, you can select the version control option and you need to enter the GitHUb url to link (green code button) it to your project
+Now that R and GitHub are linked we can start collaborating! 
 
-
-Now that everything is connected we can start collaborating! 
-
-Git has it own language full of strange terms and we are going to unveil them now
-
-First thing to know, even if you do not wish to collaborate, you will still have to use Git to talk between your local project and the one on GitHub so this applies to you too!
+Even if you do not wish to collaborate, you will still have to use Git to talk between your local projects and the ones on GitHub so this applies to you too! Git has its own lexicon, below is a list of the main basic commands we can use with Git.
 
 ## Push
 
-It means you send (push) your changes towards something else. The basic case is that you have changed some stuff locally and you push it online in your own repo.
-You need to commit your changes first. Files that you never commited to git can stay as they are.
+It means you send (push) your changes towards something else. The basic case is that you have changed some stuff locally and you push it online in your own repository.
+You need to commit your changes first. Files that you never commited to Git can stay as they are.
 
+One can use the green arrow in the Git tab or use
+
+```{bash}
+git push
+```
 
 ## Pull
 
-It means that you grab some code to put it where you initiate the pull. In our case we are getting the code from GitHub into our local Rstudio. You cannot push towards a repo if you have not pulled any changes with your code first.
+It means that you grab some code to put it where you initiated the pull. In our case we are getting the code from GitHub into our local Rstudio. You cannot push towards a repository if you have not pulled any changes with your code first.
 
-
-And that's it, the basics of Git and GitHub.
-In the following section we are going to see more advanced stuff usually coming from collaborating with other people
-
-
-Git is best used with the console so we are going to use mainly the console from now on
-
-## Branch and why do it?
-
-When you initialise a git repo, one branch called "master" is created. If you clone your repo onli with github, the online branch is also going to be called "master". That's the default. 
-
-For example your code works perfectly but you want to add/try something new. One way could be to stay on the same branch and keep commiting. If nothing works you can restore a previous stage of your code but then you will lose all your recent work. A new branch is going to be a bifurcation in your code which allows you to work in parallel with different version of your code. You can create a "dev" branch, try some stuff until it works, and when you are happy about the changes you can merge your "dev" branch into "master" to get only one master branch with all your changes.
-
-You can also have different projects using the same base code (a model for example) and have different branchs depending on how you are using the code. One branch can be a model with an additional component such as pressure/depth/temperature, or even 3 branches, one for each component.
-
-
-View all the branchs in the repo
+One can use the blue arrow in the Git tab or use
 
 ```{bash}
+git pull
+```
 
+
+## Branches and why do it?
+
+When you initialise a Git repository, one branch called "master" is created. If you clone your repo online with github, the online branch is also going to be called "master". That's the default. 
+
+Why use more than one branch? Let's say your code works perfectly but you want to add/try something new. One way could be to stay on the same branch and keep commiting. If nothing works you can restore a previous stage of your code but then you will lose all your recent work. A new branch is going to be a bifurcation in your code which allows you to work in parallel with different version of your code. You can create a "dev" branch, try some stuff until it works, and when you are happy about the changes you can merge your "dev" branch into "master" to get only one master branch with all your changes.
+
+You can also have different projects using the same base code (a model for example) and have different branches depending on how you are using the code. One branch can be a model with an additional component such as pressure/depth/temperature, or even have three branches, one for each component.
+
+
+View all the branchs in the repository:
+
+```{bash}
 git branch
-
 ```
 
 Create a new branch. When creating a new branch, you are creating a copy of the branch you are on.
 
-
 ```{bash}
-git branch dev
-
+git branch branchName
 ```
 
 But we are still working on the "master" branch at the moment, let's move to the new branch
 
 ```{bash}
-
-git checkout dev
-
+git checkout branchName
 ```
 
-console says: "switch to branch 'dev'
+The terminal says: "switch to branch 'branchName'
 
-
-I don't like this branch anymore. Need to leave the branch first
+What if I don't like this branch anymore? Need to leave the branch first
 
 ```{bash}
-
 git checkout master
-git branch -d dev
-
+git branch -d branchName
 ```
 
 
-Exercise: edit something in a new branch then come back to master -> the changes are not there!
-Note: Rstudio buttons have a hard time following what we are doing, it is better to use the console anyway
+Practical: edit something in a new branch then come back to master -> the changes are not there!
 
-short cut 
+Note: Rstudio buttons have a hard time following what we are doing, it is better to use the console anyway...
+
+Short cut to create a new branch and switch to it:
 
 ```{bash}
 git checkout -b test
 ```
 
-
-Now to merge our changes
-To do so, we need to be in the branch receiving the changes. Git works like this, it is the same when collaborating. We never push changes towards someone, instead we ask them to pull our changes into their repository
+Now we want the changes we made in the new branch to be integrated into our master branch. This is called merging.
+To do so, we need to be in the branch receiving the changes. Git works like this, it is the same when collaborating. We never push changes towards someone, instead we ask them to pull our changes into their repository.
 
 ```{bash}
-
 git merge test
-
 ```
 
-Console shows what are the difference between the 2 branches
+Terminal shows what are the difference between the two branches.
 
-We are done with the test branch now
-
-
-Check branch status
-
-shows the branch and their Upstream
-```{bash}
-git branch -vv
-```
+We are done with the test branch now and can remove it.
 
 
-
-
-
-## manipulating commits
-
+## Getting familiar with the commits
 
 Check the status of your changes
 
 ```{bash}
 git status
+```
 
+Committing using the console. 
+Adds everything not commited to the staging area. Use "git status" to see the changes.
+
+```{bash}
+git add . 
 ```
 
 
+Commit to Git what's in the staging area.
+```{bash}
+git commit -m "<commit text>"
+```
 
-Removing the last commit (https://gist.github.com/CrookedNumber/8964442)
+Adding a file to be commited and removing it.
+```{bash}
 
-To remove the last commit from git, you can simply run git reset --hard HEAD^ If you are removing multiple commits from the top, you can run git reset --hard HEAD~2 to remove the last two commits. You can increase the number to remove even more commits.
+git add test2.R
+git reset HEAD test2.R
+```
 
-If you want to "uncommit" the commits, but keep the changes around for reworking, remove the "--hard": git reset HEAD^ which will evict the commits from the branch and from the index, but leave the working tree around.
+What is HEAD? HEAD is a pointer that shows where the last commit happened. It will get updated everytime we commit something to become your last commit (last check point).
 
-If you want to save the commits on a new branch name, then run git branch newbranchname before doing the git reset.
+Now, what do you do when you already have commited some stuff that, in the end, do not want commited?
+
+To remove the last commit from git, you can simply run 
+
+```{bash}
+git reset --hard HEAD^
+```
+
+If you are removing multiple commits from the top, you can run 
+
+```{bash}
+git reset --hard HEAD~2
+```
+
+This removes the last two commits. You can increase the number to remove even more commits.
+
+If you want to "uncommit" the commits, but keep the changes around for reworking, remove the "--hard":
+
+```{bash}
+git reset HEAD^
+```
+
+This will delete the commits from the branch, but leave the working tree around.
+
+If you want to save the commits on a new branch name, then create the branch first before reseting
+
+```{bash}
+git branch newbranchname
+```
+
+If you want to restore deleted commits: http://gitready.com/advanced/2009/01/17/restoring-lost-commits.html
+(haven't tried yet)
 
 
-restoring commits: http://gitready.com/advanced/2009/01/17/restoring-lost-commits.html
 
-## aliases
+## Forking and pull requests
+
+Forking a repository on GitHub means that you clone someone else's repository into your own GitHub account. Why do that instead of pulling the repository directly into your local machine and then push back your changes? If you are not an official collaborator in a GitHub repository you cannot push changes to this repository. The GitHub way of editing someone else's repository first start by a fork, which allows you to get a clone of the repository and work on it without affecting the original one. 
+To do so you need to go on whichever repository you wish to fork and clik on the fork button on the top right corner.
+
+Once you feel that your changes should be implemented into the original repository, you need to do a pull-request. Remember, you cannot push changes everywhere, it is not polite to do so. You first need to go to the repository where you wish to add some changes and ask that your own branch in your own repository by pulled into it.
+When you click the pull request button you will be asked to select two branches. The first one is the branch receiving the changes (usually not yours) and the second one is bringing the update. GitHub will compare both branches and assess the differences. Write a post about why your changes are beneficial to the branch and create the pull request. It may then be accepted or rejected.
+
+
+## Origin and Upstream
+
+Origin and Upstream are both aliases used by Git to store repository URL. You can check them using:
+
+```{bash}
+git remote -v
+```
+
+The terminal shows you where you push and from where you pull, usually using the origin URL.
+
+Let's say you clone a repository from someone else on your local machine. The Origin alias is setup to an URL where you do not have the authority to push.
+Once that you have cloned the repository, you might start changing things and want to keep it in your own repository. First, you fork the repository into your own GitHub and then change Origin
+
+```{bash}
+git remote set-url origin https://github.com/baldrech/GitHubTutorial101.git
+```
+
+
+However, you want to be able to still track the changes of the repository your forked from. To do this, you need to add another alias called Upstream
+
+```{bash}
+git remote add upstream https://github.com/baldrech/GitHubTutorial101.git
+```
+
+Now you can pull from the first repository and push your changes into your own
+
+
+
+
+
+
+
+
 
 change origin / upstream
 
@@ -266,14 +341,19 @@ $ git remote set-url origin https://git-repo/new-repository.git
 git remote set-url origin https://baldrech:PAT@github.com/jporobicg/ECOSUM
 
 
-## Fork and why do it?
-
-why
-
-authority on branch
 
 
-## pull request? what is it?
+Check branch status
+
+shows the branch and their upstream
+```{bash}
+git branch -vv
+```
+
+
+
+
+
 
 
 
