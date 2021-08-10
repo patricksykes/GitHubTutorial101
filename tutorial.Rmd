@@ -187,7 +187,6 @@ git checkout master
 git branch -d branchName
 ```
 
-
 Practical: edit something in a new branch then come back to master -> the changes are not there!
 
 Note: Rstudio buttons have a hard time following what we are doing, it is better to use the console anyway...
@@ -208,6 +207,27 @@ git merge test
 Terminal shows what are the difference between the two branches.
 
 We are done with the test branch now and can remove it.
+
+Everything we have done until now was local, how do we get these new branches on GitHub?
+If we are on a new local branch and try to push, it won't work. We need to setup the tracking information of the branch:
+
+```{bash}
+git push --set-upstream origin branchName
+```
+Here origin is an alias for the URL of our GitHub repository
+
+Check the different branches and their tracking information:
+
+```{bash}
+git branch -vv
+```
+
+If you want to delete the remote branch:
+
+```{bash}
+git push origin --delete branchName
+```
+(We are pushing the deletion from our local repository)
 
 
 ## Getting familiar with the commits
@@ -233,14 +253,13 @@ git commit -m "<commit text>"
 
 Adding a file to be commited and removing it.
 ```{bash}
-
 git add test2.R
 git reset HEAD test2.R
 ```
 
 What is HEAD? HEAD is a pointer that shows where the last commit happened. It will get updated everytime we commit something to become your last commit (last check point).
 
-Now, what do you do when you already have commited some stuff that, in the end, do not want commited?
+Now, what do you do when you already have commited some stuff that, in the end, do not want committed?
 
 To remove the last commit from git, you can simply run 
 
@@ -277,10 +296,10 @@ If you want to restore deleted commits: http://gitready.com/advanced/2009/01/17/
 
 ## Forking and pull requests
 
-Forking a repository on GitHub means that you clone someone else's repository into your own GitHub account. Why do that instead of pulling the repository directly into your local machine and then push back your changes? If you are not an official collaborator in a GitHub repository you cannot push changes to this repository. The GitHub way of editing someone else's repository first start by a fork, which allows you to get a clone of the repository and work on it without affecting the original one. 
-To do so you need to go on whichever repository you wish to fork and clik on the fork button on the top right corner.
+Forking a repository on GitHub means that you clone someone else's repository into your own GitHub account. Why do that instead of pulling the repository directly into your local machine and then push back your changes? If you are not an official collaborator in a GitHub repository you cannot push changes to this repository. The GitHub way of editing someone else's repository is to first start by a fork, which allows you to get a clone of the repository and work on it without affecting the original one. 
+To do so you need to go on whichever repository you wish to fork and click on the fork button on the top right corner.
 
-Once you feel that your changes should be implemented into the original repository, you need to do a pull-request. Remember, you cannot push changes everywhere, it is not polite to do so. You first need to go to the repository where you wish to add some changes and ask that your own branch in your own repository by pulled into it.
+Once you feel that your changes should be implemented into the original repository, you need to do a pull-request. Remember, you cannot push changes anywhere, it is not polite to do so. You first need to go to the repository where you wish to add some changes and ask that your own branch in your own repository by pulled into it.
 When you click the pull request button you will be asked to select two branches. The first one is the branch receiving the changes (usually not yours) and the second one is bringing the update. GitHub will compare both branches and assess the differences. Write a post about why your changes are beneficial to the branch and create the pull request. It may then be accepted or rejected.
 
 
@@ -310,59 +329,20 @@ git remote add upstream https://github.com/baldrech/GitHubTutorial101.git
 
 Now you can pull from the first repository and push your changes into your own
 
-
-
-
-
-
-
-
-
-change origin / upstream
-
-shows remote and local branches with tracking info.
+To see remote and local branches with their tracking info.
 
 ```{bash}
 git remote show origin
 ```
 
-If no upstream is selected for your local branch
-
-```{bash}
-git push --set-upstream origin branch_name
-```
-
-Change Git Remote URL
-In order to change the URL of a Git remote, you have to use the “git remote set-url” command and specify the name of the remote as well as the new remote URL to be changed.
-$ git remote set-url <remote_name> <remote_url>
-For example, let’s say that you want to change the URL of your Git origin remote.
-In order to achieve that, you would use the “set-url” command on the “origin” remote and you would specify the new URL.
-$ git remote set-url origin https://git-repo/new-repository.git
-git remote set-url origin https://baldrech:PAT@github.com/jporobicg/ECOSUM
 
 
-
-
-Check branch status
-
-shows the branch and their upstream
-```{bash}
-git branch -vv
-```
-
-
-
-
-
-
-
-
-
-
-
-
+And remember,
 
 Stackoverflow is your friend
 
-Useful link: http://r-bio.github.io/git-installation/
+Useful links: 
+
+http://r-bio.github.io/git-installation/
+
 https://docs.github.com/en/get-started/quickstart/set-up-git
