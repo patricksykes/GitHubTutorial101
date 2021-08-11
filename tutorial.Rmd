@@ -132,7 +132,7 @@ Even if you do not wish to collaborate, you will still have to use Git to talk b
 ## Push
 
 It means you send (push) your changes towards something else. The basic case is that you have changed some stuff locally and you push it online in your own repository.
-You need to commit your changes first. Files that you never commited to Git can stay as they are.
+You need to commit your changes first. Files that you never committed to Git can stay as they are.
 
 One can use the green arrow in the Git tab or use
 
